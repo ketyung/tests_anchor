@@ -6,7 +6,7 @@ use crate::state::MyData;
 pub struct InitData<'info> {
 
     #[account(
-        init, payer = payer,
+        init_if_needed, payer = payer,
         seeds = [seed.as_ref()], bump = bump,
         space = 8 + 1 + 40 
     )]

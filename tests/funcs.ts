@@ -11,26 +11,23 @@ export async function testInit (
     it('Init Test...!', async () => {
 
 
-        let my_seed = "my-seed";
+        let my_seed = "my-seed-0";
 
-        const _ss = await anchor.web3.PublicKey.findProgramAddress(
+        const [_seed, _bump] = await anchor.web3.PublicKey.findProgramAddress(
             [Buffer.from(anchor.utils.bytes.utf8.encode(my_seed))], program.programId);
 
-        console.log("_seed::",_ss[0].toBase58());
+        console.log("_seed::",_seed.toBase58());
 
         
-        const tx = await program.rpc.initMyData(_ss[1], my_seed, {
+        const tx = await program.rpc.initMyData(_bump, my_seed, {
 
             accounts : {
 
-                myDataAccount : signer.publicKey,
+                myDataAccount : _seed,
                 payer : provider.wallet.publicKey,
                 systemProgram : anchor.web3.SystemProgram.programId,
 
             },
-
-            signers :[signer]
-
         });
 
         console.log("tx signature::", tx);
