@@ -4,14 +4,12 @@ import { Tests } from '../target/types/tests';
 
 
 export async function testInit (
-    signer : anchor.web3.Keypair,
+    my_seed : string, 
     provider : anchor.Provider,  program : Program<Tests>,) {
 
 
     it('Init Test...!', async () => {
 
-
-        let my_seed = "my-seed-0";
 
         const [_seed, _bump] = await anchor.web3.PublicKey.findProgramAddress(
             [Buffer.from(anchor.utils.bytes.utf8.encode(my_seed))], program.programId);
@@ -25,6 +23,37 @@ export async function testInit (
 
                 myDataAccount : _seed,
                 payer : provider.wallet.publicKey,
+                systemProgram : anchor.web3.SystemProgram.programId,
+
+            },
+        });
+
+        console.log("tx signature::", tx);
+
+        printMyData(program, _seed);
+
+    });
+
+}
+
+export async function testUpdate (
+    my_seed : string, 
+    provider : anchor.Provider,  program : Program<Tests>,) {
+
+
+    it('Update Test...!', async () => {
+
+
+        const [_seed, _bump] = await anchor.web3.PublicKey.findProgramAddress(
+            [Buffer.from(anchor.utils.bytes.utf8.encode(my_seed))], program.programId);
+
+      
+        
+        const tx = await program.rpc.updateMyData({
+
+            accounts : {
+
+                myDataAccount : _seed,
                 systemProgram : anchor.web3.SystemProgram.programId,
 
             },

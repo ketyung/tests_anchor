@@ -11,8 +11,9 @@ pub struct MyData {
 impl MyData {
 
     pub fn new(&mut self){
-        
-        self.count = 1; 
+        if  self.count == 0 {
+            self.count = 1; 
+        }
         self.message = format!("Initialized with count {}", self.count);
     }
 }

@@ -1,7 +1,7 @@
 import * as anchor from '@project-serum/anchor';
 import { Program } from '@project-serum/anchor';
 import { Tests } from '../target/types/tests';
-import {testInit} from './funcs';
+import {testInit,testUpdate} from './funcs';
 
 describe('tests', () => {
 
@@ -11,8 +11,9 @@ describe('tests', () => {
 
     const program = anchor.workspace.Tests as Program<Tests>;
 
-    let signer = anchor.web3.Keypair.generate();
+    let my_seed = "my_seed_001";
+    
+    testInit(my_seed,provider, program);
 
-    testInit(signer,provider, program);
-
+    testUpdate(my_seed, provider, program);
 });
